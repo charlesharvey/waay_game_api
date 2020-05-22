@@ -8,7 +8,7 @@ $game_attrs = json_decode($json);
 if (!empty($game_attrs->user_code)) {
 
 
-    $game_attrs->rounds_to_play = 3;
+    $game_attrs->rounds_to_play = 5;
 
     $game_id = create_game($game_attrs);
 
