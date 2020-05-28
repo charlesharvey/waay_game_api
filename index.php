@@ -64,6 +64,10 @@ if (isset($_GET['route'])) {
         }
     } // end of if route is votes
 
+    if ($route == 'questions') {
+        include('routes/questions/create.php');
+    } // end of if route is votes
+
 
 
     if ($route == 'answers') {

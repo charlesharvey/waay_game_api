@@ -20,3 +20,4 @@ include('functions_games.php');
 include('functions_user_games.php');
 include('functions_answers.php');
 include('functions_votes.php');
+include('functions_questions.php');

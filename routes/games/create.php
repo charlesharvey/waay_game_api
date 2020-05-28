@@ -9,6 +9,9 @@ if (!empty($game_attrs->user_code)) {
 
 
     $game_attrs->rounds_to_play = 5;
+    $game_type = 2; /// 2 is michaels questions, 1 is my questions
+    $game_attrs->game_type  = $game_type;
+
 
     $game_id = create_game($game_attrs);
 
@@ -17,7 +20,7 @@ if (!empty($game_attrs->user_code)) {
         //  ADD QUESTIONS TO GAMEQUESTIONS JOIN TABLE
         // AS MANY AS $game->rounds_to_play says
         $r = $game_attrs->rounds_to_play;
-        $game_questions = create_game_questions($game_id, $r);
+        $game_questions = create_game_questions($game_id, $game_type,  $r);
 
 
         // for ($i = 0; $i <  $r; $i++) {
@@ -39,7 +42,7 @@ if (!empty($game_attrs->user_code)) {
         echo json_encode($game);
     } else {
         http_response_code(404);
-        echo json_encode('Error');
+        echo json_encode('Error 123');
     }
 } else {
     http_response_code(404);

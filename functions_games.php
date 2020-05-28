@@ -60,13 +60,14 @@ function get_game_from_code($game_code = null)
     }
 }
 
-function get_random_questions($number)
+function get_random_questions($number, $game_type)
 {
     global $conn;
 
     try {
-        $query = "SELECT * FROM questions ORDER BY RAND() LIMIT $number";
+        $query = "SELECT * FROM questions WHERE game_type = :game_type ORDER BY RAND() LIMIT $number";
         $question_query = $conn->prepare($query);
+        $question_query->bindParam(':game_type', $game_type);
         $question_query->setFetchMode(PDO::FETCH_OBJ);
         $question_query->execute();
         $question_count = $question_query->rowCount();
@@ -101,7 +102,7 @@ function create_game($game)
 
 
         $user = get_user_from_code($game->user_code);
-        $game_type = 1;
+        $game_type = $game->game_type;
         $rounds_to_play = $game->rounds_to_play;
         $code = get_random_hex(3, 'g');
 
@@ -285,13 +286,13 @@ function setGameQuestionAsVoted($game_question)
     };
 }
 
-function create_game_questions($game_id, $number)
+function create_game_questions($game_id, $game_type, $number)
 {
     if ($game_id > 0) {
 
         global $conn;
         try {
-            $questions = get_random_questions($number);
+            $questions = get_random_questions($number, $game_type);
             foreach ($questions as $question) {
 
                 $query = "INSERT INTO game_questions   (game_id, question_id) VALUES   (:game_id, :question_id)";
