@@ -9,7 +9,11 @@ if (!empty($game_attrs->user_code)) {
 
 
     $game_attrs->rounds_to_play = 5;
-    $game_type = 4; /// 4 is michaels questions, 2 is my questions
+    $game_type = 1; /// 4 is michaels questions, 1 is my questions
+    if (!empty($game_attrs->game_type)) {
+        $game_type = $game_attrs->game_type;
+    }
+
     $game_attrs->game_type  = $game_type;
 
 
