@@ -1,8 +1,7 @@
 <?php
 
 
-function get_answer($answer_id = null)
-{
+function get_answer($answer_id = null) {
     global $conn;
     if ($answer_id != null) {
 
@@ -31,8 +30,7 @@ function get_answer($answer_id = null)
     }
 }
 
-function get_answers_for_question($game_id, $question_id)
-{
+function get_answers_for_question($game_id, $question_id) {
     global $conn;
 
     $query = "SELECT *  FROM answers   WHERE game_id = :game_id AND
@@ -61,11 +59,10 @@ function get_answers_for_question($game_id, $question_id)
     };
 }
 
-function get_answers_for_game($game_id)
-{
+function get_answers_for_game($game_id) {
     global $conn;
 
-    $query = "SELECT *  FROM answers   WHERE game_id = :game_id   ORDER BY  answers.id DESC";
+    $query = "SELECT *  FROM answers   WHERE game_id = :game_id   ORDER BY  RAND() ";
 
     try {
 
@@ -90,8 +87,7 @@ function get_answers_for_game($game_id)
 }
 
 
-function mark_answer_as_complete($user_id, $game_id, $question_id)
-{
+function mark_answer_as_complete($user_id, $game_id, $question_id) {
 
     global $conn;
     $finished = 1;
@@ -120,19 +116,16 @@ function mark_answer_as_complete($user_id, $game_id, $question_id)
 
 
 
-function getcorrects($answer)
-{
+function getcorrects($answer) {
     return $answer->correct;
 }
 
-function getfinisheds($answer)
-{
+function getfinisheds($answer) {
     return $answer->finished;
 }
 
 
-function setGameQuestionAsFinished($game_id, $question_id)
-{
+function setGameQuestionAsFinished($game_id, $question_id) {
     $answers = get_answers_for_question($game_id, $question_id);
     $game_users = get_user_games_for_game($game_id);
 
@@ -178,8 +171,7 @@ function setGameQuestionAsFinished($game_id, $question_id)
 
 
 
-function setGameQuestionAsAnswered($game_id, $question_id)
-{
+function setGameQuestionAsAnswered($game_id, $question_id) {
 
     $answers = get_answers_for_question($game_id, $question_id);
     $game_users = get_user_games_for_game($game_id);
@@ -221,8 +213,7 @@ function setGameQuestionAsAnswered($game_id, $question_id)
 
 
 
-function create_answer($answer)
-{
+function create_answer($answer) {
 
     if (!empty($answer->text)) {
 
@@ -253,8 +244,7 @@ function create_answer($answer)
 
 
 
-function processAnswer($answer)
-{
+function processAnswer($answer) {
 
     $answer->id =  intval($answer->id);
     $answer->user_id =  intval($answer->user_id);
@@ -268,8 +258,7 @@ function processAnswer($answer)
 }
 
 
-function processAnswers($answers)
-{
+function processAnswers($answers) {
 
     foreach ($answers as $answer) {
         processAnswer($answer);
