@@ -62,7 +62,7 @@ function get_answers_for_question($game_id, $question_id) {
 function get_answers_for_game($game_id) {
     global $conn;
 
-    $query = "SELECT *  FROM answers   WHERE game_id = :game_id   ORDER BY  RAND() ";
+    $query = "SELECT *  FROM answers   WHERE game_id = :game_id   ORDER BY  answers.id DESC";
 
     try {
 
