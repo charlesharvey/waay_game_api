@@ -34,7 +34,7 @@ function get_answers_for_question($game_id, $question_id) {
     global $conn;
 
     $query = "SELECT *  FROM answers   WHERE game_id = :game_id AND
-    question_id = :question_id  ORDER BY  answers.id DESC";
+    question_id = :question_id  ORDER BY  answers.random_val ASC, answers.id DESC";
 
     try {
 
@@ -62,7 +62,7 @@ function get_answers_for_question($game_id, $question_id) {
 function get_answers_for_game($game_id) {
     global $conn;
 
-    $query = "SELECT *  FROM answers   WHERE game_id = :game_id   ORDER BY  answers.id DESC";
+    $query = "SELECT *  FROM answers   WHERE game_id = :game_id   ORDER BY  answers.random_val ASC, answers.id DESC";
 
     try {
 
@@ -219,8 +219,10 @@ function create_answer($answer) {
 
         global $conn;
 
+        $random_val = rand(10000, 300000);
+
         try {
-            $query = "INSERT INTO answers   (`user_id`, game_id, question_id, `text`, correct) VALUES   (:user_id, :game_id,  :question_id, :text, :correct)";
+            $query = "INSERT INTO answers   (`user_id`, game_id, question_id, `text`, correct, random_val) VALUES   (:user_id, :game_id,  :question_id, :text, :correct, :random_val)";
 
             $answer_query = $conn->prepare($query);
 
@@ -229,6 +231,7 @@ function create_answer($answer) {
             $answer_query->bindParam(':question_id', $answer->question_id);
             $answer_query->bindParam(':text', $answer->text);
             $answer_query->bindParam(':correct', $answer->correct);
+            $answer_query->bindParam(':random_val', $random_val);
             $answer_query->execute();
             $answer_id = $conn->lastInsertId();
             unset($conn);
