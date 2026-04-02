@@ -226,11 +226,14 @@ function create_answer($answer) {
 
             $answer_query = $conn->prepare($query);
 
+
+            $correct = ($answer->correct == true || $answer->correct == 'true' || $answer->correct == 1) ? 1 : 0;
+
             $answer_query->bindParam(':user_id', $answer->user_id);
             $answer_query->bindParam(':game_id', $answer->game_id);
             $answer_query->bindParam(':question_id', $answer->question_id);
             $answer_query->bindParam(':text', $answer->text);
-            $answer_query->bindParam(':correct', $answer->correct);
+            $answer_query->bindParam(':correct', $correct);
             $answer_query->bindParam(':random_val', $random_val);
             $answer_query->execute();
             $answer_id = $conn->lastInsertId();
